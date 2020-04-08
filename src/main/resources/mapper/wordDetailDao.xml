@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmut.project.dao.wordDetailDao">
+
+<resultMap id= "wordDetalisRM" type = "com.xmut.project.entity.wordDetalis">
+    <id column="word_id" property="wordId" />
+    <result column="word" property="word" jdbcType="VARCHAR"/>
+    <result column="soundmark" property="soundMark" jdbcType="VARCHAR"/>
+    <result column="noun" property="noun" jdbcType="VARCHAR"/>
+    <result column="transitive_verb" property="transitiveVerb" jdbcType="VARCHAR"/>
+    <result column="intransitive_verb" property="intransitiveVerb" jdbcType="VARCHAR"/>
+    <result column="adjectives" property="adjectives" jdbcType="VARCHAR"/>
+    <result column="adverbs" property="adverbs" jdbcType="VARCHAR"/>
+    <result column="conjunction" property="conjunction" jdbcType="VARCHAR"/>
+    <result column="preposition" property="preposition" jdbcType="VARCHAR"/>
+    <result column="pronouns" property="pronouns" jdbcType="VARCHAR"/>
+    <result column="sentences" property="sentences" jdbcType="VARCHAR"/>
+    <result column="inflexion" property="inflexion" jdbcType="VARCHAR"/>
+    <result column="test_requency" property="testRequency" />
+    <result column="degree" property="degree" />
+</resultMap>
+
+<select id="queryWordDetail" resultMap="wordDetalisRM">
+    SELECT *
+    FROM words_details
+--     ORDER BY word_id
+--     DESC
+</select>
+<select id="queryWordDetailById" resultMap="wordDetalisRM">
+    SELECT *
+    FROM words_details
+    WHERE
+    word_id=#{wordId}
+</select>
+<insert id="insertWordDetail" useGeneratedKeys="true" keyProperty="wordId"
+        keyColumn="word_id" parameterType="com.xmut.project.entity.wordDetalis">
+    INSERT INTO
+    words_details(word,soundmark)
+    VALUES
+    (#{word},#{soundMark})
+</insert>
+<update id="updateWordDetail" parameterType="com.xmut.project.entity.wordDetalis">
+    update words_details
+    <set>
+        <if test="word != null">word=#{word},</if>
+        <if test="soundMark != null">soundmark=#{soundMark},</if>
+        <if test="noun != null">noun=#{noun},</if>
+        <if test="inflexion != null">inflexion=#{inflexion},</if>
+    </set>
+    WHERE
+    word_id=#{wordId}
+</update>
+<delete id="deleteWordDetail">
+    DELETE FROM
+    words_details
+    WHERE
+    word_id=#{wordId}
+</delete>
+</mapper>
