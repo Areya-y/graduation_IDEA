@@ -37,9 +37,13 @@ class wordDetailDaoTest {
 
     @Test
     void queryWordDetailById() {
-        wordDetalis wd = wordDetailDao.queryWordDetailById(10003);
-        System.out.print(wd.getNoun());
-        assertEquals("n.年；年度；年龄；学年",wd.getNoun());
+        List<wordDetalis> wordDetailList = wordDetailDao.searchWord("ac");
+        for(wordDetalis wd:wordDetailList){
+            System.out.print("Dao:");
+            System.out.println(wd.toString());
+        }
+        System.out.println(wordDetailList.size());
+//        assertEquals("n.酸；酸性物质；迷幻药",wd.getNoun());
     }
 
     @Test

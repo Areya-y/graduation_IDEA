@@ -13,11 +13,11 @@ public interface wordDetalisService {
     List<wordDetalis> queryWordDetail();
 
     /**
-     * 根据Id列出单词具体信息
+     * 根据word列出单词具体信息
      *
-     * @return wordDetalis
+     * @return word
      */
-    wordDetalis queryWordDetailById(int wordId);
+    List<wordDetalis> searchWord(String word);
 
     /**
      * 插入单词信息

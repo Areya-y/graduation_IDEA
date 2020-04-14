@@ -18,7 +18,7 @@ public interface wordDetailDao {
      *
      * @return wordDetalis
      */
-    wordDetalis queryWordDetailById(int wordId);
+    List<wordDetalis> searchWord(String word);
 
     /**
      * 插入单词信息

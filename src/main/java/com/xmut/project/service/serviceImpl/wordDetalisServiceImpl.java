@@ -16,18 +16,14 @@ public class wordDetalisServiceImpl implements wordDetalisService {
     @Override
     public List<wordDetalis> queryWordDetail() {
         List<wordDetalis> wdList=wdDao.queryWordDetail();
-//        for(wordDetalis wd:wdList){
-//            System.out.println("iml==============");
-//            System.out.println(wd.toString());
-//        }
         return wdList;
     }
 
     @Override
-    public wordDetalis queryWordDetailById(int wordId) {
-//        wordId=1/0;
-        return wdDao.queryWordDetailById(wordId);
+    public List<wordDetalis> searchWord(String word) {
+        return wdDao.searchWord(word);
     }
+
     @Transient
     @Override
     public boolean insertWordDetail(wordDetalis wordDetalis) {

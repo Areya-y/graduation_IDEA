@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/superadmin")
+//@RequestMapping("/superadmin")
 public class wordDetalisController {
     @Autowired
     private wordDetalisService wdService;
@@ -32,8 +32,56 @@ public class wordDetalisController {
         Map<String, Object> modelMap = new HashMap<String, Object>();
         List<wordDetalis> wordDetalisList=new ArrayList<wordDetalis>();
         List<word> wordList=new ArrayList<>();
-
         wordDetalisList=wdService.queryWordDetail();
+        wordList=wordDetalisToWord(wordDetalisList);
+        modelMap.put("listWords",wordList);
+        return modelMap;
+    }
+    /**
+     * 通过word获取信息
+     *
+     * @return
+     */
+    @RequestMapping(value = "/searchword", method = RequestMethod.GET)
+    private Map<String, Object> getAreaById(String word) {
+        Map<String, Object> modelMap = new HashMap<String, Object>();
+        List<wordDetalis> wordDetalisList = wdService.searchWord(word);
+        List<word> wordList=new ArrayList<>();
+        wordList=wordDetalisToWord(wordDetalisList);
+        modelMap.put("searchword", wordList);
+        return modelMap;
+    }
+    /**
+     * 添加信息
+     *
+     */
+    @RequestMapping(value = "/addword", method = RequestMethod.POST)
+    private Map<String, Object> addWordDetail(@RequestBody wordDetalis wordDetalis) {
+        Map<String, Object> modelMap = new HashMap<String, Object>();
+        // 添加区域信息
+        modelMap.put("success", wdService.insertWordDetail(wordDetalis));
+        return modelMap;
+    }
+    /**
+     * 修改区域信息，主要修改名字
+     *
+     */
+    @RequestMapping(value = "/modifyword", method = RequestMethod.POST)
+    private Map<String, Object> modifyWord(@RequestBody wordDetalis wordDetalis) {
+        Map<String, Object> modelMap = new HashMap<String, Object>();
+        modelMap.put("success",wdService.updateWordDetail(wordDetalis));
+        return modelMap;
+    }
+
+    @RequestMapping(value = "/removeword", method = RequestMethod.GET)
+    private Map<String, Object> removeWord(Integer wordId) {
+        Map<String, Object> modelMap = new HashMap<String, Object>();
+        modelMap.put("success", wdService.deleteWordDetail(wordId));
+        return modelMap;
+    }
+
+    private List<word> wordDetalisToWord(List<wordDetalis> wordDetalisList){
+        List<word> wordList=new ArrayList<>();
         for(wordDetalis wd:wordDetalisList){
             word word=new word(wd.getWordId(),wd.getWord(),wd.getSoundMark(),wd.getInflexion(),wd.getTestRequency(),wd.getDegree());
 
@@ -68,49 +116,8 @@ public class wordDetalisController {
             }
             word.setInterpretation(interpretations);
             wordList.add(word);
-            System.out.println(word.toString());
         }
-        modelMap.put("listWords",wordList);
-        return modelMap;
-    }
-    /**
-     * 通过Id获取信息
-     *
-     * @return
-     */
-    @RequestMapping(value = "/getwordbyid", method = RequestMethod.GET)
-    private Map<String, Object> getAreaById(Integer wordId) {
-        Map<String, Object> modelMap = new HashMap<String, Object>();
-        wordDetalis wordDetalis = wdService.queryWordDetailById(wordId);
-        modelMap.put("word", wordDetalis);
-        return modelMap;
-    }
-    /**
-     * 添加信息
-     *
-     */
-    @RequestMapping(value = "/addword", method = RequestMethod.POST)
-    private Map<String, Object> addWordDetail(@RequestBody wordDetalis wordDetalis) {
-        Map<String, Object> modelMap = new HashMap<String, Object>();
-        // 添加区域信息
-        modelMap.put("success", wdService.insertWordDetail(wordDetalis));
-        return modelMap;
-    }
-    /**
-     * 修改区域信息，主要修改名字
-     *
-     */
-    @RequestMapping(value = "/modifyword", method = RequestMethod.POST)
-    private Map<String, Object> modifyWord(@RequestBody wordDetalis wordDetalis) {
-        Map<String, Object> modelMap = new HashMap<String, Object>();
-        modelMap.put("success",wdService.updateWordDetail(wordDetalis));
-        return modelMap;
-    }
-
-    @RequestMapping(value = "/removeword", method = RequestMethod.GET)
-    private Map<String, Object> removeWord(Integer wordId) {
-        Map<String, Object> modelMap = new HashMap<String, Object>();
-        modelMap.put("success", wdService.deleteWordDetail(wordId));
-        return modelMap;
+        System.out.println("wordList.size:"+wordList.size());
+        return wordList;
     }
 }

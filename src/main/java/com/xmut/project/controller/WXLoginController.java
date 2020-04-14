@@ -21,7 +21,7 @@ public class WXLoginController {
     public JSONResult wxLogin(String code,String nickName){
         System.out.println("wxlogin - code: " + code);
         System.out.println("wxlogin - nickName: " + nickName);
-        
+
 //		https://api.weixin.qq.com/sns/jscode2session?
 //				appid=APPID&
 //				secret=SECRET&
