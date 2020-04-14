@@ -1,16 +1,17 @@
 package com.xmut.project.controller;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
+
+import com.xmut.project.entity.word;
 import com.xmut.project.entity.wordDetalis;
 import com.xmut.project.service.wordDetalisService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.json.JsonParseException;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,11 +30,47 @@ public class wordDetalisController {
     @RequestMapping(value = "/listwords", method = RequestMethod.GET)
     private Map<String, Object> listWords(){
         Map<String, Object> modelMap = new HashMap<String, Object>();
-        List<wordDetalis> wordsList=new ArrayList<wordDetalis>();
-        wordsList=wdService.queryWordDetail();
-        for(wordDetalis wd:wordsList)
-            System.out.print(wd.getWordId());
-        modelMap.put("listWords",wordsList);
+        List<wordDetalis> wordDetalisList=new ArrayList<wordDetalis>();
+        List<word> wordList=new ArrayList<>();
+
+        wordDetalisList=wdService.queryWordDetail();
+        for(wordDetalis wd:wordDetalisList){
+            word word=new word(wd.getWordId(),wd.getWord(),wd.getSoundMark(),wd.getInflexion(),wd.getTestRequency(),wd.getDegree());
+
+            String[] wd_sentences;
+            wd_sentences=wd.getSentences().split("=");
+            word.setSentences(wd_sentences);
+
+            List<String> interpretations=new ArrayList<>();
+            if (wd.getNoun()!=null&&"".equals(wd.getNoun())==false){
+                interpretations.add(wd.getNoun());
+            }
+            if (wd.getAdjectives()!=null&&"".equals(wd.getAdjectives())==false){
+                interpretations.add(wd.getAdjectives());
+            }
+            if (wd.getAdverbs()!=null&&"".equals(wd.getAdverbs())==false){
+                interpretations.add(wd.getAdverbs());
+            }
+            if (wd.getConjunction()!=null&&"".equals(wd.getConjunction())==false){
+                interpretations.add(wd.getConjunction());
+            }
+            if (wd.getIntransitiveVerb()!=null&&"".equals(wd.getIntransitiveVerb())==false){
+                interpretations.add(wd.getIntransitiveVerb());
+            }
+            if (wd.getTransitiveVerb()!=null&&"".equals(wd.getTransitiveVerb())==false){
+                interpretations.add(wd.getTransitiveVerb());
+            }
+            if (wd.getPreposition()!=null&&"".equals(wd.getPreposition())==false){
+                interpretations.add(wd.getPreposition());
+            }
+            if (wd.getPronouns()!=null&&"".equals(wd.getPronouns())==false){
+                interpretations.add(wd.getPronouns());
+            }
+            word.setInterpretation(interpretations);
+            wordList.add(word);
+            System.out.println(word.toString());
+        }
+        modelMap.put("listWords",wordList);
         return modelMap;
     }
     /**

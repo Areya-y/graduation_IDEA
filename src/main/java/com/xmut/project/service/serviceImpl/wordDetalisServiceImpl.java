@@ -1,6 +1,7 @@
 package com.xmut.project.service.serviceImpl;
 
 import com.xmut.project.dao.wordDetailDao;
+import com.xmut.project.entity.word;
 import com.xmut.project.entity.wordDetalis;
 import com.xmut.project.service.wordDetalisService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,10 @@ public class wordDetalisServiceImpl implements wordDetalisService {
     @Override
     public List<wordDetalis> queryWordDetail() {
         List<wordDetalis> wdList=wdDao.queryWordDetail();
-        for(wordDetalis wd:wdList){
-            System.out.print("iml==============");
-            System.out.print(wd.getWordId());
-        }
+//        for(wordDetalis wd:wdList){
+//            System.out.println("iml==============");
+//            System.out.println(wd.toString());
+//        }
         return wdList;
     }
 
@@ -30,7 +31,10 @@ public class wordDetalisServiceImpl implements wordDetalisService {
     @Transient
     @Override
     public boolean insertWordDetail(wordDetalis wordDetalis) {
-        if(wordDetalis.getWord()!=null&&"".equals(wordDetalis.getWord())&&wordDetalis.getSoundMark()!=null&&"".equals(wordDetalis.getSoundMark())){
+        if(wordDetalis.getWord()==null&&"".equals(wordDetalis.getWord())&&wordDetalis.getSoundMark()==null&&"".equals(wordDetalis.getSoundMark())){
+            throw new RuntimeException("插入不能为空！");
+        }
+        else{
             try{
                 int num=wdDao.insertWordDetail(wordDetalis);
                 if(num>0){
@@ -42,14 +46,14 @@ public class wordDetalisServiceImpl implements wordDetalisService {
                 throw new RuntimeException("插入失败:"+e.getMessage());
             }
         }
-        else{
-            throw new RuntimeException("插入不能为空！");
-        }
     }
 
     @Override
     public boolean updateWordDetail(wordDetalis wordDetalis) {
-        if(wordDetalis.getWord()!=null&&"".equals(wordDetalis.getWord())&&wordDetalis.getSoundMark()!=null&&"".equals(wordDetalis.getSoundMark())){
+        if(wordDetalis.getWord()==null&&"".equals(wordDetalis.getWord())&&wordDetalis.getSoundMark()==null&&"".equals(wordDetalis.getSoundMark())){
+            throw new RuntimeException("更新不能为空！");
+        }
+        else{
             try{
                 int num=wdDao.updateWordDetail(wordDetalis);
                 if(num>0){
@@ -60,9 +64,6 @@ public class wordDetalisServiceImpl implements wordDetalisService {
             }catch (Exception e){
                 throw new RuntimeException("更新失败:"+e.getMessage());
             }
-        }
-        else{
-            throw new RuntimeException("更新不能为空！");
         }
     }
 

@@ -48,6 +48,8 @@ class wordDetailDaoTest {
         wordDetalis wd = new wordDetalis();
         wd.setWord("word");
         wd.setSoundMark("wɜːrd");
+        wd.setTestRequency(4);
+        wd.setDegree(2);
         //将该对象实例添加入库
         int effectedNum = wordDetailDao.insertWordDetail(wd);
         //检测影响行数

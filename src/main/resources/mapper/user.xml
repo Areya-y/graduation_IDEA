@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmut.project.dao.userDao">
+    <resultMap id= "userRM" type = "com.xmut.project.entity.user">
+        <id column="user_id" property="userId" />
+        <result column="nickName" property="nickName" jdbcType="VARCHAR"/>
+        <result column="session_key" property="session_key" jdbcType="VARCHAR"/>
+        <result column="openid" property="openid" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="queryUser" resultMap="userRM">
+    SELECT *
+    FROM users
+    </select>
+
+    <select id="queryUserById" resultMap="userRM">
+    SELECT *
+    FROM users
+    WHERE
+    openid=#{openid}
+    </select>
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="userId"
+            keyColumn="user_id" parameterType="com.xmut.project.entity.user">
+    INSERT INTO
+    users(nickName,session_key,openid)
+    VALUES
+    (#{nickName},#{session_key},#{openid})
+    </insert>
+    <update id="updateUser" parameterType="com.xmut.project.entity.user">
+        update users
+        <set>
+            <if test="nickName != null">nickName=#{nickName},</if>
+            <if test="session_key != null">session_key=#{session_key},</if>
+        </set>
+        WHERE
+        openid=#{openid}
+    </update>
+</mapper>

@@ -37,9 +37,9 @@
 <insert id="insertWordDetail" useGeneratedKeys="true" keyProperty="wordId"
         keyColumn="word_id" parameterType="com.xmut.project.entity.wordDetalis">
     INSERT INTO
-    words_details(word,soundmark)
+    words_details(word,soundmark,test_requency,degree)
     VALUES
-    (#{word},#{soundMark})
+    (#{word},#{soundMark},#{testRequency},#{degree})
 </insert>
 <update id="updateWordDetail" parameterType="com.xmut.project.entity.wordDetalis">
     update words_details
