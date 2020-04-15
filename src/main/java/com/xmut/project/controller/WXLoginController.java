@@ -1,13 +1,15 @@
 package com.xmut.project.controller;
 import java.lang.String;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.xmut.project.common.HttpClientUtil;
-import com.xmut.project.common.JSONResult;
 import com.xmut.project.common.JsonUtils;
 import com.xmut.project.entity.WXSessionModel;
 import com.xmut.project.entity.user;
 import com.xmut.project.service.serviceImpl.userServiceImpl;
+import com.xmut.project.service.userSettingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,9 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class WXLoginController {
     @Autowired
     private userServiceImpl userServiceImpl;
+    @Autowired
+    private userSettingService userSettingService;
 
     @PostMapping("/wxLogin")
-    public JSONResult wxLogin(String code,String nickName){
+    public Map<String, Object> wxLogin(String code, String nickName){
         System.out.println("wxlogin - code: " + code);
         System.out.println("wxlogin - nickName: " + nickName);
 
@@ -61,6 +65,24 @@ public class WXLoginController {
         for(user i:userList){
             System.out.println(i.toString());
         }
-        return JSONResult.ok();
+
+        //返回userID
+        Integer userID=userServiceImpl.queryUserById(user.getOpenid()).getUserId();
+        user userEntity=new user();
+        userEntity.setUserId(userID);
+        System.out.println("返回用户");
+        System.out.println(userEntity.toString());
+
+        Map<String, Object> modelMap = new HashMap<String, Object>();
+        modelMap.put("userID",userEntity);
+
+        //将用户ID加入user_setting表中
+        boolean isHaveUser=false;
+        if (userSettingService.queryUserSettingById(userID)==null){
+            isHaveUser=userSettingService.insertUserSetting(userID);
+            System.out.println("=将user_id加入userSetting表中");
+        }
+
+        return modelMap;
     }
 }

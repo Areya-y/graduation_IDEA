@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmut.project.dao.userSettingDao">
+    <resultMap id= "userSettingRM" type = "com.xmut.project.entity.userSetting">
+        <id column="setting_id" property="settingID" />
+        <result column="user_id" property="userID" />
+        <result column="wordBook" property="wordBook"/>
+        <result column="remind_time" property="remind_time" jdbcType="VARCHAR"/>
+        <result column="wordsNum_per" property="wordsNumPer" />
+    </resultMap>
+
+    <select id="queryUserSettingById" resultMap="userSettingRM">
+    SELECT *
+    FROM user_setting
+    WHERE
+    user_id=#{userID}
+    </select>
+    <insert id="insertUserSetting" useGeneratedKeys="true"  parameterType="Integer">
+    INSERT INTO
+    user_setting(user_id)
+    VALUES
+    (#{userID})
+    </insert>
+    <update id="updateUserSetting" parameterType="com.xmut.project.entity.userSetting">
+        update user_setting
+        <set>
+            <if test="wordBook != null">wordBook=#{wordBook},</if>
+            <if test="remind_time != null">remind_time=#{remind_time},</if>
+            <if test="wordsNumPer != null">wordsNum_per=#{wordsNumPer},</if>
+        </set>
+        WHERE
+        user_id=#{userID}
+    </update>
+</mapper>

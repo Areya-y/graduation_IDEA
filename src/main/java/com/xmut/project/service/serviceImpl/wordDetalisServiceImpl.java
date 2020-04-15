@@ -1,7 +1,6 @@
 package com.xmut.project.service.serviceImpl;
 
 import com.xmut.project.dao.wordDetailDao;
-import com.xmut.project.entity.word;
 import com.xmut.project.entity.wordDetalis;
 import com.xmut.project.service.wordDetalisService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import java.util.List;
 public class wordDetalisServiceImpl implements wordDetalisService {
     @Autowired
     private wordDetailDao wdDao;
+
     @Override
     public List<wordDetalis> queryWordDetail() {
         List<wordDetalis> wdList=wdDao.queryWordDetail();
