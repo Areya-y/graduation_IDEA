@@ -14,50 +14,15 @@ public class wordDetalis {
     private String pronouns ;
     private String sentences ;
     private String inflexion ;
-    private	Integer	testRequency 	;
-    private	Integer	degree 	;
+    private	Integer	testRequencyOne;
+    private	Integer	degreeOne	;
+    private	Integer	testRequencyTwo;
+    private	Integer	degreeTwo;
+
 
     public wordDetalis() {
     }
 
-    @Override
-    public String toString() {
-        return "wordDetalis{" +
-                "wordId=" + wordId +
-                ", word='" + word + '\'' +
-                ", soundMark='" + soundMark + '\'' +
-                ", noun='" + noun + '\'' +
-                ", transitiveVerb='" + transitiveVerb + '\'' +
-                ", intransitiveVerb='" + intransitiveVerb + '\'' +
-                ", adjectives='" + adjectives + '\'' +
-                ", adverbs='" + adverbs + '\'' +
-                ", conjunction='" + conjunction + '\'' +
-                ", preposition='" + preposition + '\'' +
-                ", pronouns='" + pronouns + '\'' +
-                ", sentences='" + sentences + '\'' +
-                ", inflexion='" + inflexion + '\'' +
-                ", testRequency=" + testRequency +
-                ", degree=" + degree +
-                '}';
-    }
-
-
-
-    public Integer getTestRequency() {
-        return testRequency;
-    }
-
-    public void setTestRequency(Integer testRequency) {
-        this.testRequency = testRequency;
-    }
-
-    public Integer getDegree() {
-        return degree;
-    }
-
-    public void setDegree(Integer degree) {
-        this.degree = degree;
-    }
     public Integer getWordId() {
         return wordId;
     }
@@ -161,4 +126,60 @@ public class wordDetalis {
     public void setInflexion(String inflexion) {
         this.inflexion = inflexion;
     }
+
+    public Integer getTestRequencyOne() {
+        return testRequencyOne;
+    }
+
+    public void setTestRequencyOne(Integer testRequencyOne) {
+        this.testRequencyOne = testRequencyOne;
+    }
+
+    public Integer getDegreeOne() {
+        return degreeOne;
+    }
+
+    public void setDegreeOne(Integer degreeOne) {
+        this.degreeOne = degreeOne;
+    }
+
+    public Integer getTestRequencyTwo() {
+        return testRequencyTwo;
+    }
+
+    public void setTestRequencyTwo(Integer testRequencyTwo) {
+        this.testRequencyTwo = testRequencyTwo;
+    }
+
+    public Integer getDegreeTwo() {
+        return degreeTwo;
+    }
+
+    public void setDegreeTwo(Integer degreeTwo) {
+        this.degreeTwo = degreeTwo;
+    }
+
+    @Override
+    public String toString() {
+        return "wordDetalis{" +
+                "wordId=" + wordId +
+                ", word='" + word + '\'' +
+                ", soundMark='" + soundMark + '\'' +
+                ", noun='" + noun + '\'' +
+                ", transitiveVerb='" + transitiveVerb + '\'' +
+                ", intransitiveVerb='" + intransitiveVerb + '\'' +
+                ", adjectives='" + adjectives + '\'' +
+                ", adverbs='" + adverbs + '\'' +
+                ", conjunction='" + conjunction + '\'' +
+                ", preposition='" + preposition + '\'' +
+                ", pronouns='" + pronouns + '\'' +
+                ", sentences='" + sentences + '\'' +
+                ", inflexion='" + inflexion + '\'' +
+                ", testRequencyOne=" + testRequencyOne +
+                ", degreeOne=" + degreeOne +
+                ", testRequencyTwo=" + testRequencyTwo +
+                ", degreeTwo=" + degreeTwo +
+                '}';
+    }
+
 }

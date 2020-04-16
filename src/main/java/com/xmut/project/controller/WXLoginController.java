@@ -10,6 +10,7 @@ import com.xmut.project.entity.WXSessionModel;
 import com.xmut.project.entity.user;
 import com.xmut.project.service.serviceImpl.userServiceImpl;
 import com.xmut.project.service.userSettingService;
+import com.xmut.project.service.userWordLearningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,8 @@ public class WXLoginController {
     private userServiceImpl userServiceImpl;
     @Autowired
     private userSettingService userSettingService;
+    @Autowired
+    private userWordLearningService userWordLearningService;
 
     @PostMapping("/wxLogin")
     public Map<String, Object> wxLogin(String code, String nickName){
@@ -82,6 +85,12 @@ public class WXLoginController {
             isHaveUser=userSettingService.insertUserSetting(userID);
             System.out.println("=将user_id加入userSetting表中");
         }
+        //根据用户userID创建用户自己的学习情况表
+        if (userServiceImpl.queryUserById(user.getOpenid())!=null){
+            System.out.println("create:"+userID);
+            userWordLearningService.createNewTable(userID);
+        }
+
 
         return modelMap;
     }

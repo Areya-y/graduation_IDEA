@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmut.project.dao.userWordLearningDao">
+    <resultMap id= "WordLearningInfoRM" type = "com.xmut.project.entity.userLearning">
+        <id column="word_id" property="wordId" />
+        <result column="isCollect" property="isCollect"/>
+        <result column="study_num" property="study_num"/>
+        <result column="write_num" property="write_num"/>
+        <result column="word" property="word" jdbcType="VARCHAR"/>
+        <result column="soundmark" property="soundMark" jdbcType="VARCHAR"/>
+        <result column="noun" property="noun" jdbcType="VARCHAR"/>
+        <result column="transitive_verb" property="transitiveVerb" jdbcType="VARCHAR"/>
+        <result column="intransitive_verb" property="intransitiveVerb" jdbcType="VARCHAR"/>
+        <result column="adjectives" property="adjectives" jdbcType="VARCHAR"/>
+        <result column="adverbs" property="adverbs" jdbcType="VARCHAR"/>
+        <result column="conjunction" property="conjunction" jdbcType="VARCHAR"/>
+        <result column="preposition" property="preposition" jdbcType="VARCHAR"/>
+        <result column="pronouns" property="pronouns" jdbcType="VARCHAR"/>
+        <result column="sentences" property="sentences" jdbcType="VARCHAR"/>
+        <result column="inflexion" property="inflexion" jdbcType="VARCHAR"/>
+        <result column="test_requency_one" property="testRequencyOne" />
+        <result column="degree_one" property="degreeOne" />
+        <result column="test_requency_two" property="testRequencyTwo" />
+        <result column="degree_two" property="degreeTwo" />
+    </resultMap>
+    <update id="createNewTable" parameterType="String">
+        CREATE TABLE ${tableName} (
+            wl_id INT ( 5 ) NOT NULL AUTO_INCREMENT,
+            word_id INT ( 5 ) NOT NULL UNIQUE,
+            isCollect INT ( 5 ) DEFAULT 0,
+            study_num INT ( 5 ) DEFAULT 0,
+            write_num INT ( 5 ) DEFAULT 0,
+            PRIMARY KEY (wl_id) ,
+            FOREIGN KEY(word_id) REFERENCES words_details(word_id)
+        ) ENGINE = InnoDB AUTO_INCREMENT = 10001 CHARSET = utf8;
+    </update>
+
+    <select id="getAllWordLearningInfo" resultMap="WordLearningInfoRM">
+        SELECT  ${tableName}.isCollect,${tableName}.study_num,${tableName}.write_num,words_details.*
+        FROM words_details  left join ${tableName}
+        ON words_details.word_id = ${tableName}.word_id;
+    </select>
+
+    <select id="searchWordbyID" resultMap="WordLearningInfoRM">
+        SELECT  ${tableName}.isCollect,${tableName}.study_num,${tableName}.write_num,words_details.*
+        FROM words_details  left join ${tableName}
+        ON words_details.word_id = ${tableName}.word_id
+        WHERE
+        word like CONCAT('%',#{word},'%');
+    </select>
+</mapper>

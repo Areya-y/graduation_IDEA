@@ -18,8 +18,10 @@
     <result column="pronouns" property="pronouns" jdbcType="VARCHAR"/>
     <result column="sentences" property="sentences" jdbcType="VARCHAR"/>
     <result column="inflexion" property="inflexion" jdbcType="VARCHAR"/>
-    <result column="test_requency" property="testRequency" />
-    <result column="degree" property="degree" />
+    <result column="test_requency_one" property="testRequencyOne" jdbcType="VARCHAR"/>
+    <result column="degree_one" property="degreeOne" jdbcType="VARCHAR"/>
+    <result column="test_requency_two" property="testRequencyTwo" jdbcType="VARCHAR"/>
+    <result column="degree_two" property="degreeTwo" jdbcType="VARCHAR"/>
 </resultMap>
 
 <select id="queryWordDetail" resultMap="wordDetalisRM">
@@ -34,12 +36,14 @@
     WHERE
     word like CONCAT('%',#{word,jdbcType=VARCHAR},'%')
 </select>
+
+
 <insert id="insertWordDetail" useGeneratedKeys="true" keyProperty="wordId"
         keyColumn="word_id" parameterType="com.xmut.project.entity.wordDetalis">
     INSERT INTO
-    words_details(word,soundmark,test_requency,degree)
+    words_details(word,soundmark,test_requency_one,degree_one)
     VALUES
-    (#{word},#{soundMark},#{testRequency},#{degree})
+    (#{word},#{soundMark},#{testRequencyOne},#{degreeOne})
 </insert>
 <update id="updateWordDetail" parameterType="com.xmut.project.entity.wordDetalis">
     update words_details

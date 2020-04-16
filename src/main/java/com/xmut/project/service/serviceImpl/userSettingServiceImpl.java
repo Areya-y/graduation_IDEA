@@ -18,7 +18,6 @@ public class userSettingServiceImpl implements userSettingService {
         return userSettingDao.queryUserSettingById(userID);
     }
 
-    @Transient
     @Override
     public boolean insertUserSetting(Integer userID) {
         if(userID!=null&&userID!=0){
