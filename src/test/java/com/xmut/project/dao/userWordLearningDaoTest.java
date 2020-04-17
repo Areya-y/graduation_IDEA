@@ -83,4 +83,14 @@ class userWordLearningDaoTest {
         System.out.println(ulID);
         assertEquals(10001,ulID);
     }
+
+    @Test
+    void getWordsPerBook(){
+        Integer userID=10006;
+        String newTableName="word_learning_"+String.valueOf(userID);
+        Integer degree=0;
+        Integer wordBook=1;
+        List<userLearning> userLearningList=userWordLearningDao.getWordsPerBook(newTableName,degree,wordBook);
+        assertEquals(263,userLearningList.size());
+    }
 }

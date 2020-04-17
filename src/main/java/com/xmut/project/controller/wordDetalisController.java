@@ -1,9 +1,8 @@
 package com.xmut.project.controller;
 
 
-import com.xmut.project.dao.userDao;
-import com.xmut.project.entity.user;
 import com.xmut.project.entity.userLearning;
+import com.xmut.project.entity.userSetting;
 import com.xmut.project.entity.word;
 import com.xmut.project.entity.wordDetalis;
 import com.xmut.project.service.userSettingService;
@@ -32,24 +31,10 @@ public class wordDetalisController {
     @Autowired
     private userSettingService userSettingService;
 
-//    /**
-//     * 获取所有的单词详情
-//     *
-//     * @return
-//     */
-//    @RequestMapping(value = "/listwords", method = RequestMethod.GET)
-//    private Map<String, Object> listWords(){
-//        Map<String, Object> modelMap = new HashMap<String, Object>();
-//        List<wordDetalis> wordDetalisList=new ArrayList<wordDetalis>();
-//        List<word> wordList=new ArrayList<>();
-//        wordDetalisList=wdService.queryWordDetail();
-//        wordList=wordDetalisToWord(wordDetalisList);
-//        modelMap.put("listWords",wordList);
-//        return modelMap;
-//    }
     /**
      * 通过word获取信息
-     *
+     * @param word
+     * @param userID
      * @return
      */
     @RequestMapping(value = "/searchword", method = RequestMethod.GET)
@@ -61,9 +46,11 @@ public class wordDetalisController {
         modelMap.put("searchword", wordList);
         return modelMap;
     }
+
     /**
-     *获取所有的单词详情
-     *
+     * 获取所有的单词详情
+     * @param userID
+     * @return
      */
     @RequestMapping(value = "/getAllWordLearningInfo", method = RequestMethod.GET)
     private Map<String, Object> getAllWordLearningInfo(Integer userID) {
@@ -75,7 +62,66 @@ public class wordDetalisController {
         return modelMap;
     }
 
-    private List<word> wordDetalisToWord(List<userLearning> userLearningList,Integer userID){
+    /**
+     *获取每个程度下的所有的单词，并按照完成、未完成两部分返回
+     * @param degree
+     * @param userID
+     * @return
+     */
+    @RequestMapping(value = "/getWordsPerBook", method = RequestMethod.POST)
+    private Map<String, Object> getWordsPerBook(Integer degree,Integer userID){
+        userSetting userSetting=userSettingService.queryUserSettingById(userID);
+        Integer wordBook=userSetting.getWordBook();
+        Integer wordsNumPer=userSetting.getWordsNumPer();
+        Map<String, Object> modelMap = new HashMap<String, Object>();
+        List<userLearning> userLearningList=userWordLearningService.getWordsPerBook(userID,degree,wordBook);
+        List<word> wordList=new ArrayList<>();
+        wordList=wordDetalisToWord(userLearningList,userID);
+
+        List<word> unfinished_words=new ArrayList<>();
+        List<word> finished_words=new ArrayList<>();
+
+        for (word i:wordList){
+            if (i.getStudyNum()==null&&i.getWriteNum()==null){
+                unfinished_words.add(i);
+
+            }else  {
+                if (i.getStudyNum()==2&&i.getWriteNum()==2){
+                    finished_words.add(i);
+                }else {
+                    unfinished_words.add(i);
+                }
+            }
+        }
+
+        List<List<word>> unfinished_wordBook=groupList(unfinished_words,wordsNumPer);
+        List<List<word>> finished_wordBook=groupList(finished_words,wordsNumPer);
+        System.out.println("unfinished_wordBook.size():"+unfinished_wordBook.size());
+        System.out.println("finished_wordBook.size():"+finished_wordBook.size());
+
+        modelMap.put("unfinished_wordBook",unfinished_wordBook);
+        modelMap.put("finished_wordBook",finished_wordBook);
+        return modelMap;
+    }
+
+    /*
+     * List分割
+     */
+    public static List<List<word>> groupList(List<word> list,int toIndex) {
+        List<List<word>> listGroup = new ArrayList<List<word>>();
+        int listSize = list.size();
+        for (int i = 0; i < list.size(); i += toIndex) {
+            if (i + toIndex > listSize) {
+                toIndex = listSize - i;
+            }
+            List<word> newList = list.subList(i, i + toIndex);
+            listGroup.add(newList);
+        }
+        return listGroup;
+    }
+
+
+    public List<word> wordDetalisToWord(List<userLearning> userLearningList,Integer userID){
         List<word> wordList=new ArrayList<>();
         Integer wordBook=userSettingService.queryUserSettingById(userID).getWordBook();
         for(userLearning ul:userLearningList){

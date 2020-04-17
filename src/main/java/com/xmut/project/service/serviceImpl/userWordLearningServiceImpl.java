@@ -106,5 +106,20 @@ public class userWordLearningServiceImpl implements userWordLearningService {
         }
     }
 
+    @Override
+    public List<userLearning> getWordsPerBook(Integer userID, Integer degree, Integer wordBook) {
+        if(degree==null&&wordBook==null&&userID==null&&userID==0){
+            throw new  RuntimeException("获取每个程度下的所有的单词，并按照完成、未完成两部分返回失败：userID不能为空或0,degree不能为空,wordBook不能为空");
+        }else{
+            try {
+                String newTableName="word_learning_"+String.valueOf(userID);
+                List<userLearning> userLearningList=userWordLearningDao.getWordsPerBook(newTableName,degree,wordBook);
+                return userLearningList;
+            }catch (Exception e){
+                throw new RuntimeException("获取每个程度下的所有的单词，并按照完成、未完成两部分返回失败:"+e.getMessage());
+            }
+        }
+    }
+
 
 }

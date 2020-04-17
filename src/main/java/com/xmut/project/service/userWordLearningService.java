@@ -56,4 +56,14 @@ public interface userWordLearningService {
      */
     Integer queryWordLearningInfoByID(Integer wordID,Integer userID);
 
+    /**
+     * 获取每个程度下的所有的单词，并按照完成、未完成两部分返回
+     * @param userID
+     * @param degree
+     * @param wordBook
+     * @return
+     */
+    List<userLearning> getWordsPerBook(Integer userID,Integer degree,Integer wordBook);
+
+
 }

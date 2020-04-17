@@ -77,4 +77,12 @@
         FROM ${tableName}
         WHERE word_id=#{wordID}
     </select>
+
+    <select id="getWordsPerBook" resultMap="WordLearningInfoRM">
+        SELECT  ${tableName}.isCollect,${tableName}.study_num,${tableName}.write_num,words_details.*
+        FROM words_details  left join ${tableName}
+        ON words_details.word_id = ${tableName}.word_id
+        <if test="wordBook==0"> WHERE degree_one=#{degree} </if>
+        <if test="wordBook==1"> WHERE degree_two=#{degree} </if>
+    </select>
 </mapper>

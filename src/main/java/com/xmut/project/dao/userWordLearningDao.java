@@ -58,4 +58,13 @@ public interface userWordLearningDao {
      * @return
      */
     Integer queryWordLearningInfoByID(@Param("wordID")Integer wordID, @Param("tableName")String tableName);
+
+    /**
+     * 获取每个程度下的所有的单词，并按照完成、未完成两部分返回
+     * @param tableName
+     * @param degree
+     * @param wordBook
+     * @return
+     */
+    List<userLearning> getWordsPerBook(@Param("tableName")String tableName,@Param("degree")Integer degree,@Param("wordBook")Integer wordBook);
 }
