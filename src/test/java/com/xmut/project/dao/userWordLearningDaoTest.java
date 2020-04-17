@@ -21,7 +21,7 @@ class userWordLearningDaoTest {
 
     @Test
     void createNewTable() {
-        Integer userID=10004;
+        Integer userID=10006;
         String newTableName="word_learning_"+String.valueOf(userID);
         int num=userWordLearningDao.createNewTable(newTableName);
         System.out.println(newTableName);
@@ -48,5 +48,39 @@ class userWordLearningDaoTest {
             System.out.println(i.toString());
         }
 
+    }
+    @Test
+    void insertWordLearning(){
+        Integer userID=10006;
+        String newTableName="word_learning_"+String.valueOf(userID);
+        Integer wordID=10700;
+        int num=userWordLearningDao.insertWordLearning(wordID,newTableName);
+        assertEquals(1,num);
+    }
+    @Test
+    void addCollect(){
+        Integer userID=10006;
+        String newTableName="word_learning_"+String.valueOf(userID);
+        Integer wordID=10693;
+        int num=userWordLearningDao.addCollect(wordID,newTableName);
+        assertEquals(1,num);
+    }
+    @Test
+    void cancelCollect(){
+        Integer userID=10006;
+        String newTableName="word_learning_"+String.valueOf(userID);
+        Integer wordID=10693;
+        int num=userWordLearningDao.cancelCollect(wordID,newTableName);
+        assertEquals(1,num);
+    }
+
+    @Test
+    void queryWordLearningInfoByID(){
+        Integer userID=10006;
+        String newTableName="word_learning_"+String.valueOf(userID);
+        Integer wordID=10500;
+        Integer ulID=userWordLearningDao.queryWordLearningInfoByID(wordID,newTableName);
+        System.out.println(ulID);
+        assertEquals(10001,ulID);
     }
 }

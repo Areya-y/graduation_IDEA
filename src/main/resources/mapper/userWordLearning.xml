@@ -28,7 +28,7 @@
     <update id="createNewTable" parameterType="String">
         CREATE TABLE ${tableName} (
             wl_id INT ( 5 ) NOT NULL AUTO_INCREMENT,
-            word_id INT ( 5 ) NOT NULL UNIQUE,
+            word_id INT ( 5 ) NOT NULL,
             isCollect INT ( 5 ) DEFAULT 0,
             study_num INT ( 5 ) DEFAULT 0,
             write_num INT ( 5 ) DEFAULT 0,
@@ -49,5 +49,32 @@
         ON words_details.word_id = ${tableName}.word_id
         WHERE
         word like CONCAT('%',#{word},'%');
+    </select>
+
+    <insert id="insertWordLearning"  >
+        INSERT INTO
+        ${tableName}(word_id)
+        VALUES
+        (#{wordID})
+    </insert>
+
+    <update id="addCollect">
+        update ${tableName}
+        set isCollect=1
+        WHERE
+        word_id=#{wordID}
+    </update>
+
+    <update id="cancelCollect">
+        update ${tableName}
+        set  isCollect=0
+        WHERE
+        word_id=#{wordID}
+    </update>
+
+    <select id="queryWordLearningInfoByID" resultType="Integer">
+        SELECT  ${tableName}.wl_id
+        FROM ${tableName}
+        WHERE word_id=#{wordID}
     </select>
 </mapper>

@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-//@RequestMapping("/superadmin")
+@RequestMapping("/wordDetalisController")
 public class wordDetalisController {
     @Autowired
     private wordDetalisService wdService;

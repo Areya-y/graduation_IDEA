@@ -37,17 +37,25 @@ public interface userWordLearningDao {
     int insertWordLearning(@Param("wordID")Integer wordID, @Param("tableName")String tableName);
     /**
      * 添加收藏
-     * @param word
+     * @param wordID
      * @param tableName
      * @return
      */
-    int addCollect(@Param("word")String word, @Param("tableName")String tableName);
+    int addCollect(@Param("wordID")Integer wordID, @Param("tableName")String tableName);
 
     /**
      * 取消收藏
-     * @param word
+     * @param wordID
      * @param tableName
      * @return
      */
-    int cancelCollect(@Param("word")String word, @Param("tableName")String tableName);
+    int cancelCollect(@Param("wordID")Integer wordID, @Param("tableName")String tableName);
+
+    /**
+     * 根据word_id是否在userLearning中
+     * @param wordID
+     * @param tableName
+     * @return
+     */
+    Integer queryWordLearningInfoByID(@Param("wordID")Integer wordID, @Param("tableName")String tableName);
 }

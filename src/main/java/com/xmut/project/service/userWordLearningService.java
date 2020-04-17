@@ -1,6 +1,7 @@
 package com.xmut.project.service;
 
 import com.xmut.project.entity.userLearning;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -25,4 +26,34 @@ public interface userWordLearningService {
      * @return word
      */
     List<userLearning> searchWord(String word,Integer userID);
+    /**
+     * 增加单词学习记录
+     * @param wordID
+     * @param userID
+     * @return
+     */
+    boolean insertWordLearning(Integer wordID,Integer userID);
+    /**
+     * 添加收藏
+     * @param wordID
+     * @param userID
+     * @return
+     */
+    boolean addCollect(Integer wordID,Integer userID);
+
+    /**
+     * 取消收藏
+     * @param wordID
+     * @param userID
+     * @return
+     */
+    boolean cancelCollect(Integer wordID,Integer userID);
+    /**
+     * 根据word_id是否在userLearning中
+     * @param wordID
+     * @param userID
+     * @return
+     */
+    Integer queryWordLearningInfoByID(Integer wordID,Integer userID);
+
 }

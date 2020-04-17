@@ -34,4 +34,77 @@ public class userWordLearningServiceImpl implements userWordLearningService {
         return userWordLearningDao.searchWordbyID(word,newTableName);
     }
 
+    @Override
+    public boolean insertWordLearning(Integer wordID, Integer userID) {
+        if(wordID==null&&wordID==0&&userID==null&&userID==0){
+            throw new  RuntimeException("插入单词学习记录：wordID、userID不能为空或0");
+        }else{
+            try {
+                String newTableName="word_learning_"+String.valueOf(userID);
+                int num=userWordLearningDao.insertWordLearning(wordID,newTableName);
+                if(num>0){
+                    return true;
+                }else {
+                    throw new RuntimeException("插入单词学习记录失败！");
+                }
+            }catch (Exception e){
+                throw new RuntimeException("插入单词学习记录失败:"+e.getMessage());
+            }
+        }
+    }
+
+    @Override
+    public boolean addCollect(Integer wordID, Integer userID) {
+        if(wordID==null&&wordID==0&&userID==null&&userID==0){
+            throw new  RuntimeException("添加收藏失败：wordID、userID不能为空或0");
+        }else{
+            try {
+                String newTableName="word_learning_"+String.valueOf(userID);
+                int num=userWordLearningDao.addCollect(wordID,newTableName);
+                if(num>0){
+                    return true;
+                }else {
+                    throw new RuntimeException("添加收藏失败！");
+                }
+            }catch (Exception e){
+                throw new RuntimeException("添加收藏失败:"+e.getMessage());
+            }
+        }
+    }
+
+    @Override
+    public boolean cancelCollect(Integer wordID, Integer userID) {
+        if(wordID==null&&wordID==0&&userID==null&&userID==0){
+            throw new  RuntimeException("取消收藏失败：wordID、userID不能为空或0");
+        }else{
+            try {
+                String newTableName="word_learning_"+String.valueOf(userID);
+                int num=userWordLearningDao.cancelCollect(wordID,newTableName);
+                if(num>0){
+                    return true;
+                }else {
+                    throw new RuntimeException("取消收藏失败！");
+                }
+            }catch (Exception e){
+                throw new RuntimeException("取消收藏失败:"+e.getMessage());
+            }
+        }
+    }
+
+    @Override
+    public Integer queryWordLearningInfoByID(Integer wordID, Integer userID) {
+        if(wordID==null&&wordID==0&&userID==null&&userID==0){
+            throw new  RuntimeException("查询wi_id失败：wordID、userID不能为空或0");
+        }else{
+            try {
+                String newTableName="word_learning_"+String.valueOf(userID);
+                Integer wlID=userWordLearningDao.queryWordLearningInfoByID(wordID,newTableName);
+                return wlID;
+            }catch (Exception e){
+                throw new RuntimeException("查询wi_id失败:"+e.getMessage());
+            }
+        }
+    }
+
+
 }
