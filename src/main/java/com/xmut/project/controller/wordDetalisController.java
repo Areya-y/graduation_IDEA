@@ -92,6 +92,9 @@ public class wordDetalisController {
                     unfinished_words.add(i);
                 }
             }
+            if(userWordLearningService.queryWordLearningInfoByID(i.getWordId(),userID)==null){
+                userWordLearningService.insertWordLearning(i.getWordId(),userID);
+            }
         }
 
         List<List<word>> unfinished_wordBook=groupList(unfinished_words,wordsNumPer);
@@ -103,6 +106,8 @@ public class wordDetalisController {
         modelMap.put("finished_wordBook",finished_wordBook);
         return modelMap;
     }
+
+
 
     /*
      * List分割
@@ -125,13 +130,8 @@ public class wordDetalisController {
         List<word> wordList=new ArrayList<>();
         Integer wordBook=userSettingService.queryUserSettingById(userID).getWordBook();
         for(userLearning ul:userLearningList){
-            word word=new word(ul.getWordId(),ul.getWord(),ul.getSoundMark(),ul.getInflexion());
-            if (ul.getIsCollect()==null)
-                word.setIsCollect(0);
-            if (ul.getStudy_num()==null)
-                word.setStudyNum(0);
-            if (ul.getWrite_num()==null)
-                word.setWriteNum(0);
+            word word=new word(ul.getWordId(),ul.getWord(),ul.getSoundMark(),ul.getInflexion(),ul.getIsCollect(),ul.getStudy_num(),ul.getWrite_num());
+
             if(wordBook==0){
                 word.setTestRequency(ul.getTestRequencyOne());
                 word.setDegree(ul.getDegreeOne());

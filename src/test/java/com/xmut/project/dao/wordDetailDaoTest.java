@@ -1,6 +1,8 @@
 package com.xmut.project.dao;
 
+import com.xmut.project.entity.word;
 import com.xmut.project.entity.wordDetalis;
+import com.xmut.project.service.wordDetalisService;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
@@ -10,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,6 +23,9 @@ class wordDetailDaoTest {
     //通过spring容器注入Dao的实现类
     @Autowired
     private wordDetailDao wordDetailDao;
+    @Autowired
+    wordDetalisService wordDetalisService;
+
     @Test
     @Ignore
     void queryWordDetail() {
@@ -81,4 +86,80 @@ class wordDetailDaoTest {
         int num=wordDetailDao.deleteWordDetail(10221);
         assertEquals(1,num);
     }
+
+    @Test
+    void test1(){
+        int size=18;
+        int randomNumber;
+        List<String> answersList=new ArrayList<>();
+        List randomNumberList=new ArrayList();
+
+        for (int i = 0; i <size ; i++) {
+            randomNumber = (int) Math.round(Math.random()*(4-1)+1);
+            randomNumberList.add(randomNumber);
+            if(randomNumber==1){
+                answersList.add("A");
+            }
+            if(randomNumber==2){
+                answersList.add("B");
+            }
+            if(randomNumber==3){
+                answersList.add("C");
+            }
+            if(randomNumber==4){
+                answersList.add("D");
+            }
+        }
+
+    }
+    @Test
+    void test2(){
+        List<word> wordAllList=wordDetalisToWord(wordDetalisService.queryWordDetail());
+        List<word> wordsList= wordAllList.subList(5,13);
+
+
+
+
+    }
+
+    public List<word> wordDetalisToWord(List<wordDetalis> wordDetalisList){
+        List<word> wordList=new ArrayList<>();
+        for(wordDetalis ul:wordDetalisList){
+            word word=new word(ul.getWordId(),ul.getWord(),ul.getSoundMark(),ul.getInflexion());
+            String[] ul_sentences;
+            ul_sentences=ul.getSentences().split("=");
+            word.setSentences(ul_sentences);
+            List<String> interpretations=new ArrayList<>();
+            if (ul.getNoun()!=null&&"".equals(ul.getNoun())==false){
+                interpretations.add(ul.getNoun());
+            }
+            if (ul.getAdjectives()!=null&&"".equals(ul.getAdjectives())==false){
+                interpretations.add(ul.getAdjectives());
+            }
+            if (ul.getAdverbs()!=null&&"".equals(ul.getAdverbs())==false){
+                interpretations.add(ul.getAdverbs());
+            }
+            if (ul.getConjunction()!=null&&"".equals(ul.getConjunction())==false){
+                interpretations.add(ul.getConjunction());
+            }
+            if (ul.getIntransitiveVerb()!=null&&"".equals(ul.getIntransitiveVerb())==false){
+                interpretations.add(ul.getIntransitiveVerb());
+            }
+            if (ul.getTransitiveVerb()!=null&&"".equals(ul.getTransitiveVerb())==false){
+                interpretations.add(ul.getTransitiveVerb());
+            }
+            if (ul.getPreposition()!=null&&"".equals(ul.getPreposition())==false){
+                interpretations.add(ul.getPreposition());
+            }
+            if (ul.getPronouns()!=null&&"".equals(ul.getPronouns())==false){
+                interpretations.add(ul.getPronouns());
+            }
+            word.setInterpretation(interpretations);
+            wordList.add(word);
+        }
+        System.out.println("wordList.size:"+wordList.size());
+
+        return wordList;
+    }
+
 }

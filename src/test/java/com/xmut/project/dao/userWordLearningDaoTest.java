@@ -1,6 +1,7 @@
 package com.xmut.project.dao;
 
 import com.xmut.project.entity.userLearning;
+import com.xmut.project.entity.word;
 import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -9,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 @RunWith(SpringRunner.class)
@@ -40,7 +43,7 @@ class userWordLearningDaoTest {
 
     @Test
     void searchWordbyID(){
-        Integer userID=10006;
+        Integer userID=10008;
         String newTableName="word_learning_"+String.valueOf(userID);
         String word="acc";
         List<userLearning> userLearningList=userWordLearningDao.searchWordbyID(word,newTableName);
@@ -92,5 +95,20 @@ class userWordLearningDaoTest {
         Integer wordBook=1;
         List<userLearning> userLearningList=userWordLearningDao.getWordsPerBook(newTableName,degree,wordBook);
         assertEquals(263,userLearningList.size());
+    }
+
+    @Test
+    void updateWordLearning(){
+        Integer userID=10006;
+        String newTableName="word_learning_"+String.valueOf(userID);
+        word word=new word(10694,"yawn","jɔːn","名词: yawner 过去式: yawned 过去分词: yawned 现在分词: yawning 第三人称单数: yawns",1,1,0);
+        Map map =new HashMap();
+        map.put("tableName",newTableName);
+        map.put("isCollect",word.getIsCollect());
+        map.put("studyNum",word.getStudyNum());
+        map.put("writeNum",word.getWriteNum());
+        map.put("wordID",word.getWordId());
+        Integer num=userWordLearningDao.updateWordLearning(map);
+        assertEquals(1,num);
     }
 }

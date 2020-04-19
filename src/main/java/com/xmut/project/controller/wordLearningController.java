@@ -1,12 +1,12 @@
 package com.xmut.project.controller;
 
+import com.xmut.project.entity.word;
 import com.xmut.project.service.userWordLearningService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/wordLearningController")
@@ -16,11 +16,13 @@ public class wordLearningController {
     userWordLearningService userWordLearningService;
 
     /**
-     * 增加单词学习记录
+     * 创建单词学习记录
      *
      */
     @RequestMapping(value = "/insertWordLearning", method = RequestMethod.POST)
-    private Map<String, Object> insertWordLearning(Integer wordID,Integer userID){
+    private Map<String, Object> insertWordLearning(Integer wordID, Integer userID){
+
+
         Map<String, Object> modelMap = new HashMap<String, Object>();
         Integer wlID=userWordLearningService.queryWordLearningInfoByID(wordID, userID);
         String resultStr=new String();
@@ -31,6 +33,24 @@ public class wordLearningController {
             resultStr="word_learning_"+userID+"没有"+wordID+"     已插入";
         }
         System.out.println(resultStr);
+        modelMap.put("success", resultStr);
+        return modelMap;
+    }
+
+    /**
+     * 增加单词书的学习记录
+     *
+     */
+    @RequestMapping(value = "/insertWordBookLearning", method = RequestMethod.POST)
+    private Map<String, Object> insertWordBookLearning(@RequestBody List<word> wordList,Integer userID){
+        System.out.println("用户"+userID+" insertWordLearning:===");
+        System.out.println(userID);
+        Integer updateNum=0;
+        for (word i:wordList){
+            updateNum+=userWordLearningService.updateWordLearning(i,userID);
+        }
+        Map<String, Object> modelMap = new HashMap<String, Object>();
+        String resultStr="成功更新用户"+userID+"的"+updateNum+"条数据";
         modelMap.put("success", resultStr);
         return modelMap;
     }

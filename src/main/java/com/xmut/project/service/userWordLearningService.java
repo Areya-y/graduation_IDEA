@@ -1,9 +1,11 @@
 package com.xmut.project.service;
 
 import com.xmut.project.entity.userLearning;
+import com.xmut.project.entity.word;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface userWordLearningService {
     /**
@@ -65,5 +67,11 @@ public interface userWordLearningService {
      */
     List<userLearning> getWordsPerBook(Integer userID,Integer degree,Integer wordBook);
 
-
+    /**
+     * 更新用户对word的学习情况
+     * @param word
+     * @param userID
+     * @return
+     */
+    Integer updateWordLearning(word word,Integer userID);
 }

@@ -8,9 +8,11 @@ import com.xmut.project.common.HttpClientUtil;
 import com.xmut.project.common.JsonUtils;
 import com.xmut.project.entity.WXSessionModel;
 import com.xmut.project.entity.user;
+import com.xmut.project.entity.wordDetalis;
 import com.xmut.project.service.serviceImpl.userServiceImpl;
 import com.xmut.project.service.userSettingService;
 import com.xmut.project.service.userWordLearningService;
+import com.xmut.project.service.wordDetalisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +25,8 @@ public class WXLoginController {
     private userSettingService userSettingService;
     @Autowired
     private userWordLearningService userWordLearningService;
+    @Autowired
+    private wordDetalisService wordDetalisService;
 
     @PostMapping("/wxLogin")
     public Map<String, Object> wxLogin(String code, String nickName){
@@ -84,11 +88,24 @@ public class WXLoginController {
         if (userSettingService.queryUserSettingById(userID)==null){
             isHaveUser=userSettingService.insertUserSetting(userID);
             System.out.println("=将user_id加入userSetting表中");
+            modelMap.put("success","将user_id加入userSetting表中");
         }
+
         //根据用户userID创建用户自己的学习情况表
-        if (userServiceImpl.queryUserById(user.getOpenid())!=null){
+        if (userServiceImpl.queryUserById(user.getOpenid())==null){
             System.out.println("create:"+userID);
             userWordLearningService.createNewTable(userID);
+            modelMap.put("success","create:word_learning_10006");
+            List<wordDetalis> wordDetalisList=wordDetalisService.queryWordDetail();
+            Integer insertNum=0;
+            for (wordDetalis i:wordDetalisList){
+                if(userWordLearningService.insertWordLearning(i.getWordId(),userID)){
+                    insertNum++;
+                }
+            }
+            System.out.println("成功insert用户"+userID+"的"+insertNum+"条数据");
+            modelMap.put("success","成功insert用户"+userID+"的"+insertNum+"条数据");
+
         }
 
 

@@ -1,9 +1,11 @@
 package com.xmut.project.dao;
 
 import com.xmut.project.entity.userLearning;
+import com.xmut.project.entity.word;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface userWordLearningDao {
     /**
@@ -67,4 +69,11 @@ public interface userWordLearningDao {
      * @return
      */
     List<userLearning> getWordsPerBook(@Param("tableName")String tableName,@Param("degree")Integer degree,@Param("wordBook")Integer wordBook);
+
+    /**
+     * 更新用户对word的学习情况
+     * @param map
+     * @return
+     */
+    Integer updateWordLearning(Map map);
 }

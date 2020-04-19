@@ -30,6 +30,7 @@
 --     ORDER BY word_id
 --     DESC
 </select>
+
 <select id="searchWord" resultMap="wordDetalisRM">
     SELECT *
     FROM words_details

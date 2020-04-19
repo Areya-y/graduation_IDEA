@@ -2,11 +2,14 @@ package com.xmut.project.service.serviceImpl;
 
 import com.xmut.project.dao.userWordLearningDao;
 import com.xmut.project.entity.userLearning;
+import com.xmut.project.entity.word;
 import com.xmut.project.service.userWordLearningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -117,6 +120,31 @@ public class userWordLearningServiceImpl implements userWordLearningService {
                 return userLearningList;
             }catch (Exception e){
                 throw new RuntimeException("获取每个程度下的所有的单词，并按照完成、未完成两部分返回失败:"+e.getMessage());
+            }
+        }
+    }
+
+    @Override
+    public Integer updateWordLearning(word word, Integer userID) {
+        if(word.getWordId()==null&&word.getWordId()==0&&userID==null&&userID==0){
+            throw new  RuntimeException("updateWordLearning失败：wordID、userID不能为空或0");
+        }else{
+            try {
+                String tableName="word_learning_"+String.valueOf(userID);
+                Map map =new HashMap();
+                map.put("tableName",tableName);
+                map.put("isCollect",word.getIsCollect());
+                map.put("studyNum",word.getStudyNum());
+                map.put("writeNum",word.getWriteNum());
+                map.put("wordID",word.getWordId());
+                Integer num=userWordLearningDao.updateWordLearning(map);
+                if (num>0){
+                    return num;
+                }else {
+                    throw new RuntimeException("updateWordLearning失败！");
+                }
+            }catch (Exception e){
+                throw new RuntimeException("updateWordLearning失败:"+e.getMessage());
             }
         }
     }

@@ -85,4 +85,14 @@
         <if test="wordBook==0"> WHERE degree_one=#{degree} </if>
         <if test="wordBook==1"> WHERE degree_two=#{degree} </if>
     </select>
+    <update id="updateWordLearning" parameterType="map">
+        update ${tableName}
+        <set>
+            isCollect=#{isCollect},
+            study_num=#{studyNum},
+            write_num=#{writeNum},
+        </set>
+        WHERE
+        word_id=#{wordID}
+    </update>
 </mapper>
