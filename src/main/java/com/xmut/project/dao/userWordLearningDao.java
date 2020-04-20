@@ -4,6 +4,7 @@ import com.xmut.project.entity.userLearning;
 import com.xmut.project.entity.word;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -76,4 +77,26 @@ public interface userWordLearningDao {
      * @return
      */
     Integer updateWordLearning(Map map);
+
+    /**
+     * 创建用户的签到表
+     * @param tableName
+     * @return
+     */
+    Integer createSignInTable(String tableName);
+
+    /**
+     * 插入用户的签到数据
+     * @param tableName
+     * @param signInDate
+     * @return
+     */
+    Integer signIn(@Param("tableName")String tableName,@Param("signInDate")Date signInDate);
+
+    /**
+     * 获取用户的签到数据
+     * @param tableName
+     * @return
+     */
+    List<Date> signData(@Param("tableName")String tableName);
 }

@@ -7,6 +7,7 @@ import com.xmut.project.service.userWordLearningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -147,6 +148,51 @@ public class userWordLearningServiceImpl implements userWordLearningService {
                 throw new RuntimeException("updateWordLearning失败:"+e.getMessage());
             }
         }
+    }
+
+    @Override
+    public Integer createSignInTable(Integer userID) {
+        String signinTableName="user_signin_"+String.valueOf(userID);
+        Integer num=userWordLearningDao.createSignInTable(signinTableName);
+        System.out.println("create:"+signinTableName);
+        return num;
+    }
+
+    @Override
+    public Integer signIn(Integer userID, Date signInDate) {
+        if(signInDate==null&&userID==null&&userID==0){
+            throw new  RuntimeException("签到失败：userID不能为空或0,signInDate不能为空");
+        }else{
+            try {
+                String signinTableName="user_signin_"+String.valueOf(userID);
+                Integer num=userWordLearningDao.signIn(signinTableName,signInDate);
+                if (num>0){
+                    return num;
+                }else {
+                    throw new  RuntimeException("签到失败");
+                }
+
+            }catch (Exception e){
+                throw new RuntimeException("签到失败:"+e.getMessage());
+            }
+        }
+
+    }
+
+    @Override
+    public List<Date> signData(Integer userID) {
+        if(userID==null&&userID==0){
+            throw new  RuntimeException("获取签到数据失败：userID不能为空或0");
+        }else{
+            try {
+                String signinTableName="user_signin_"+String.valueOf(userID);
+                List<Date> signinDates=userWordLearningDao.signData(signinTableName);
+                return signinDates;
+            }catch (Exception e){
+                throw new RuntimeException("获取签到数据失败:"+e.getMessage());
+            }
+        }
+
     }
 
 

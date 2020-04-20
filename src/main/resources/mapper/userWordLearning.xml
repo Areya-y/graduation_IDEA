@@ -95,4 +95,21 @@
         WHERE
         word_id=#{wordID}
     </update>
+    <update id="createSignInTable" parameterType="String">
+        CREATE TABLE ${tableName} (
+            signin_id  INT ( 5 ) NOT NULL AUTO_INCREMENT,
+	        signin_date TIMESTAMP  NOT NULL,
+	        PRIMARY KEY ( signin_id )
+        ) ENGINE = InnoDB AUTO_INCREMENT = 10001 CHARSET = utf8;
+    </update>
+    <insert id="signIn"  >
+        INSERT INTO
+        ${tableName}(signin_date)
+        VALUES
+        (#{signInDate})
+    </insert>
+    <select id="signData" resultType="date">
+        SELECT  signin_date
+        FROM  ${tableName}
+    </select>
 </mapper>

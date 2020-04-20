@@ -89,13 +89,10 @@ public class WXLoginController {
             isHaveUser=userSettingService.insertUserSetting(userID);
             System.out.println("=将user_id加入userSetting表中");
             modelMap.put("success","将user_id加入userSetting表中");
-        }
-
-        //根据用户userID创建用户自己的学习情况表
-        if (userServiceImpl.queryUserById(user.getOpenid())==null){
-            System.out.println("create:"+userID);
+            //根据用户userID创建用户自己的学习情况表
+            System.out.println("create:word_learning_"+userID);
             userWordLearningService.createNewTable(userID);
-            modelMap.put("success","create:word_learning_10006");
+            modelMap.put("success","create:word_learning");
             List<wordDetalis> wordDetalisList=wordDetalisService.queryWordDetail();
             Integer insertNum=0;
             for (wordDetalis i:wordDetalisList){
@@ -105,9 +102,11 @@ public class WXLoginController {
             }
             System.out.println("成功insert用户"+userID+"的"+insertNum+"条数据");
             modelMap.put("success","成功insert用户"+userID+"的"+insertNum+"条数据");
-
+            //根据用户userID创建用户自己的签到表
+            System.out.println("create:user_signin_"+userID);
+            userWordLearningService.createSignInTable(userID);
+            modelMap.put("success","create:user_signin");
         }
-
 
         return modelMap;
     }
