@@ -70,6 +70,7 @@ public class wordDetalisController {
      */
     @RequestMapping(value = "/getWordsPerBook", method = RequestMethod.POST)
     private Map<String, Object> getWordsPerBook(Integer degree,Integer userID){
+        System.out.println("getWordsPerBook=>");
         userSetting userSetting=userSettingService.queryUserSettingById(userID);
         Integer wordBook=userSetting.getWordBook();
         Integer wordsNumPer=userSetting.getWordsNumPer();
@@ -82,18 +83,15 @@ public class wordDetalisController {
         List<word> finished_words=new ArrayList<>();
 
         for (word i:wordList){
-            if (i.getStudyNum()==null&&i.getWriteNum()==null){
+            if (i.getStudyNum()==null||i.getWriteNum()==null){
                 unfinished_words.add(i);
+            } else {
 
-            }else  {
                 if (i.getStudyNum()==2&&i.getWriteNum()==2){
                     finished_words.add(i);
                 }else {
                     unfinished_words.add(i);
                 }
-            }
-            if(userWordLearningService.queryWordLearningInfoByID(i.getWordId(),userID)==null){
-                userWordLearningService.insertWordLearning(i.getWordId(),userID);
             }
         }
 
@@ -108,6 +106,20 @@ public class wordDetalisController {
     }
 
 
+    /**
+     * 获得用户生词本的数据
+     * @param userID
+     * @return
+     */
+    @RequestMapping(value = "/wordlistcollect", method = RequestMethod.POST)
+    Map<String, Object> wordListCollect(Integer userID){
+        Map<String, Object> modelMap = new HashMap<String, Object>();
+        List<userLearning> userLearningList=userWordLearningService.wordListCollect(userID);
+        List<word> wordList=new ArrayList<>();
+        wordList=wordDetalisToWord(userLearningList,userID);
+        modelMap.put("wordlistcollect",wordList);
+        return modelMap;
+    }
 
     /*
      * List分割
@@ -170,7 +182,7 @@ public class wordDetalisController {
             word.setInterpretation(interpretations);
             wordList.add(word);
         }
-        System.out.println("wordList.size:"+wordList.size());
+        System.out.println("wordDetalisToWord=>wordList.size:"+wordList.size());
 
         return wordList;
     }

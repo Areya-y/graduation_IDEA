@@ -97,4 +97,12 @@ public interface userWordLearningService {
      * @return
      */
     List<Date> signData(Integer userID);
+
+    /**
+     * 获得用户生词本的数据
+     * @param userID
+     * @return
+     */
+
+    List<userLearning> wordListCollect(Integer userID);
 }

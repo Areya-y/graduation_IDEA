@@ -99,4 +99,21 @@ public interface userWordLearningDao {
      * @return
      */
     List<Date> signData(@Param("tableName")String tableName);
+
+    /**
+     * 获得用户生词本的数据
+     * @param tableName
+     * @return
+     */
+
+    List<userLearning> wordListCollect(@Param("tableName")String tableName);
+
+    /**
+     * 获得单词的信息
+     * @param word
+     * @param tableName
+     * @return
+     */
+    userLearning getWordDetail(@Param("word")String word,@Param("tableName")String tableName);
+
 }

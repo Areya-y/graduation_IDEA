@@ -195,5 +195,11 @@ public class userWordLearningServiceImpl implements userWordLearningService {
 
     }
 
+    @Override
+    public List<userLearning> wordListCollect(Integer userID) {
+        String newTableName="word_learning_"+String.valueOf(userID);
+        return userWordLearningDao.wordListCollect(newTableName);
+    }
+
 
 }

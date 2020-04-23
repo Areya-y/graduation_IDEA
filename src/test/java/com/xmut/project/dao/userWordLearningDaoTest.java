@@ -243,6 +243,17 @@ class userWordLearningDaoTest {
         int day = (int) ((largeDay.getTime() - smallDay.getTime()) / (1000 * 60 * 60 * 24));
         return day;
     }
+
+    @Test
+    void wordListCollect() {
+        int userID=10010;
+        String collectWordsName="word_learning_"+String.valueOf(userID);
+        List<userLearning> userLearningList=userWordLearningDao.wordListCollect(collectWordsName);
+        for(userLearning i:userLearningList){
+            System.out.println(i.toString());
+        }
+    }
+
 }
 
 

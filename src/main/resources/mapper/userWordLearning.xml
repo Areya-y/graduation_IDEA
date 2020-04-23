@@ -51,6 +51,7 @@
         word like CONCAT('%',#{word},'%');
     </select>
 
+
     <insert id="insertWordLearning"  >
         INSERT INTO
         ${tableName}(word_id)
@@ -111,5 +112,11 @@
     <select id="signData" resultType="date">
         SELECT  signin_date
         FROM  ${tableName}
+    </select>
+    <select id="wordListCollect" resultMap="WordLearningInfoRM">
+        SELECT  ${tableName}.isCollect,${tableName}.study_num,${tableName}.write_num,words_details.*
+        FROM words_details  left join ${tableName}
+        ON words_details.word_id = ${tableName}.word_id
+        WHERE ${tableName}.isCollect=1
     </select>
 </mapper>
