@@ -1,6 +1,9 @@
 package com.xmut.project.controller;
 
+import com.xmut.project.entity.user;
+import com.xmut.project.entity.userRank;
 import com.xmut.project.entity.word;
+import com.xmut.project.service.userService;
 import com.xmut.project.service.userWordLearningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +17,8 @@ import java.util.*;
 public class wordLearningController {
     @Autowired
     userWordLearningService userWordLearningService;
+    @Autowired
+    userService userService;
 
     /**
      * 创建单词学习记录
@@ -129,7 +134,29 @@ public class wordLearningController {
     }
 
 
-
+    /**
+     * 获取排行榜的数据
+     *
+     */
+    @RequestMapping(value = "/getrankinglistdata", method = RequestMethod.GET)
+    private Map<String, Object> getRankingListData() throws ParseException {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        List<userRank> userRankList=new ArrayList<>();
+        Integer userID;
+        for (user user: userService.queryUser()){
+            userRank userRank=new userRank();
+            userID=user.getUserId();
+            userRank.setUserID(userID);
+            userRank.setNickName(user.getNickName());
+            userRank.setStudyNum(userWordLearningService.studyNumUser(userID));
+            userRankList.add(userRank);
+        }
+        Collections.sort(userRankList);
+        System.out.println("==> getrankinglistdata:");
+        System.out.println(userRankList.toString());
+        resultMap.put("success",userRankList);
+        return resultMap;
+    }
     /**
      * 连续签到天数
      *
@@ -178,4 +205,13 @@ public class wordLearningController {
         int day = (int) ((largeDay.getTime() - smallDay.getTime()) / (1000 * 60 * 60 * 24));
         return day;
     }
+
+    /**
+     * 将numList进行降序排列 并返回在原数列中的索引List
+     * @param numList
+     * @return
+     */
+//    private static List sortList(List<Integer> numList){
+//
+//    }
 }

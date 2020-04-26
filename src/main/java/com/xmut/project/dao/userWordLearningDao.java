@@ -1,7 +1,6 @@
 package com.xmut.project.dao;
 
 import com.xmut.project.entity.userLearning;
-import com.xmut.project.entity.word;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -115,5 +114,13 @@ public interface userWordLearningDao {
      * @return
      */
     userLearning getWordDetail(@Param("word")String word,@Param("tableName")String tableName);
+
+    /**
+     * 获取每个用户的学习量
+     * @param tableName
+     * @return
+     */
+    Integer studyNumUser(@Param("tableName")String tableName);
+
 
 }

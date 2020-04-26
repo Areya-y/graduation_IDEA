@@ -201,5 +201,21 @@ public class userWordLearningServiceImpl implements userWordLearningService {
         return userWordLearningDao.wordListCollect(newTableName);
     }
 
+    @Override
+    public Integer studyNumUser(Integer userID) {
+        if(userID==null&&userID==0){
+            throw new  RuntimeException("获取学习数据失败：userID不能为空或0");
+        }else{
+            try {
+                String TableName="word_learning_"+String.valueOf(userID);
+                Integer studyNumF=userWordLearningDao.studyNumUser(TableName);
+                return studyNumF;
+            }catch (Exception e){
+                throw new RuntimeException("获取学习数据失败:"+e.getMessage());
+            }
+        }
+    }
+
+
 
 }

@@ -1,8 +1,11 @@
 package com.xmut.project.dao;
 
+import com.xmut.project.entity.user;
 import com.xmut.project.entity.userLearning;
+import com.xmut.project.entity.userRank;
 import com.xmut.project.entity.word;
-import org.assertj.core.internal.Dates;
+import com.xmut.project.service.userService;
+import com.xmut.project.service.userWordLearningService;
 import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +25,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class userWordLearningDaoTest {
     @Autowired
     userWordLearningDao userWordLearningDao;
+    @Autowired
+    userWordLearningService userWordLearningService;
+    @Autowired
+    userService userService;
 
     @Test
     void createNewTable() {
@@ -254,6 +261,31 @@ class userWordLearningDaoTest {
         }
     }
 
+    @Test
+    void studyNumUser() {
+        List<userRank> userRankList=new ArrayList<>();
+        Integer userID;
+        for (user user: userService.queryUser()){
+            userRank userRank=new userRank();
+            userID=user.getUserId();
+            userRank.setUserID(userID);
+            userRank.setNickName(user.getNickName());
+            userRank.setStudyNum(userWordLearningService.studyNumUser(userID));
+            userRankList.add(userRank);
+        }
+        for (userRank i:userRankList){
+            System.out.println(i.toString());
+        }
+        Collections.sort(userRankList);
+        System.out.println(userRankList.toString());
+
+   }
+
+
+
 }
+
+
+
 
 

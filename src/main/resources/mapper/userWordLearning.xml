@@ -119,4 +119,11 @@
         ON words_details.word_id = ${tableName}.word_id
         WHERE ${tableName}.isCollect=1
     </select>
+
+    <select id="studyNumUser" resultType="Integer">
+        SELECT sum(study_num)
+        FROM ${tableName}
+    </select>
+
+
 </mapper>

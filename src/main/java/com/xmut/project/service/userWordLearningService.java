@@ -105,4 +105,11 @@ public interface userWordLearningService {
      */
 
     List<userLearning> wordListCollect(Integer userID);
+
+    /**
+     * 获取每个用户的学习量
+     * @param userID
+     * @return
+     */
+    Integer studyNumUser(Integer userID);
 }
